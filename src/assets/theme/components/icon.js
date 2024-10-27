@@ -1,4 +1,4 @@
-// Material Dashboard 2 React helper functions
+// Schedulify React helper functions
 import pxToRem from "assets/theme/functions/pxToRem";
 
 const icon = {

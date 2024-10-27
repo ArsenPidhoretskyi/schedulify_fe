@@ -7,11 +7,11 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
 
-// Material Dashboard 2 React components
+// Schedulify React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
-// Material Dashboard 2 React example components
+// Schedulify React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
@@ -91,16 +91,15 @@ export default class Profile extends Component {
               <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
                 <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
                 <ProfileInfoCard
+                  isEdit={false}
                   title="profile information"
                   description={this.state.profile?.description || ""}
                   info={{
-                    fullName:
-                      (this.state.profile?.first_name || "") +
-                      " " +
-                      (this.state.profile?.last_name || ""),
-                    mobile: this.state.profile?.phone_number,
-                    email: this.state.profile?.email,
-                    location: this.state.profile?.location,
+                    firstName: this.state.profile?.first_name || "",
+                    lastName: this.state.profile?.last_name || "",
+                    mobile: this.state.profile?.phone_number || "",
+                    email: this.state.profile?.email || "",
+                    location: this.state.profile?.location || "",
                   }}
                   social={[
                     {
@@ -119,7 +118,7 @@ export default class Profile extends Component {
                       color: "instagram",
                     },
                   ]}
-                  action={{ route: "", tooltip: "Edit Profile" }}
+                  action={{ route: "", tooltip: "Edit Profile", icon: "edit" }}
                   shadow={false}
                 />
                 <Divider orientation="vertical" sx={{ mx: 0 }} />
@@ -129,40 +128,6 @@ export default class Profile extends Component {
               </Grid>
             </Grid>
           </MDBox>
-          {/*<MDBox pt={2} px={2} lineHeight={1.25}>*/}
-          {/*  <MDTypography variant="h6" fontWeight="medium">*/}
-          {/*    Projects*/}
-          {/*  </MDTypography>*/}
-          {/*  <MDBox mb={1}>*/}
-          {/*    <MDTypography variant="button" color="text">*/}
-          {/*      Architects design houses*/}
-          {/*    </MDTypography>*/}
-          {/*  </MDBox>*/}
-          {/*</MDBox>*/}
-          {/*<MDBox p={2}>*/}
-          {/*  <Grid container spacing={6}>*/}
-          {/*    <Grid item xs={12} md={6} xl={3}>*/}
-          {/*      <DefaultProjectCard*/}
-          {/*        image={homeDecor1}*/}
-          {/*        label="project #2"*/}
-          {/*        title="modern"*/}
-          {/*        description="As Uber works through a huge amount of internal management turmoil."*/}
-          {/*        action={{*/}
-          {/*          type: "internal",*/}
-          {/*          route: "/pages/profile/profile-overview",*/}
-          {/*          color: "info",*/}
-          {/*          label: "view project",*/}
-          {/*        }}*/}
-          {/*        authors={[*/}
-          {/*          { image: team1, name: "Elena Morison" },*/}
-          {/*          { image: team2, name: "Ryan Milly" },*/}
-          {/*          { image: team3, name: "Nick Daniel" },*/}
-          {/*          { image: team4, name: "Peterson" },*/}
-          {/*        ]}*/}
-          {/*      />*/}
-          {/*    </Grid>*/}
-          {/*  </Grid>*/}
-          {/*</MDBox>*/}
         </Header>
         <Footer />
       </DashboardLayout>

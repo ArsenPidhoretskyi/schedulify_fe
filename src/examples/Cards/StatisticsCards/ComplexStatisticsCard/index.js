@@ -6,7 +6,7 @@ import Card from "@mui/material/Card";
 import Divider from "@mui/material/Divider";
 import Icon from "@mui/material/Icon";
 
-// Material Dashboard 2 React components
+// Schedulify React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 

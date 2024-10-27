@@ -10,46 +10,61 @@ import Divider from "@mui/material/Divider";
 import Tooltip from "@mui/material/Tooltip";
 import Icon from "@mui/material/Icon";
 
-// Material Dashboard 2 React components
+// Schedulify React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
-// Material Dashboard 2 React base styles
+// Schedulify React base styles
 import colors from "assets/theme/base/colors";
 import typography from "assets/theme/base/typography";
+import MDInput from "../../../../components/MDInput";
+import { useEffect, useState } from "react";
+import environment from "../../../../environment";
+
+function saveProfile(formData) {
+  const requestOptions = {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    },
+    body: JSON.stringify({
+      first_name: formData.firstName,
+      last_name: formData.lastName,
+      mobile: formData.mobile,
+      location: formData.location,
+    }),
+  };
+
+  fetch(`${environment.API_BASE_URL}/api/v1/accounts/me/`, requestOptions)
+    .then((response) => {
+      if (!response.ok) {
+        return Promise.reject(response);
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      if (error.status === 401) {
+        window.location = "/authentication/sign-in";
+      }
+    });
+}
 
 function ProfileInfoCard({ title, description, info, social, action, shadow }) {
-  const labels = [];
-  const values = [];
   const { socialMediaColors } = colors;
   const { size } = typography;
 
-  // Convert this form `objectKey` of the object key in to this `object key`
-  Object.keys(info).forEach((el) => {
-    if (el.match(/[A-Z\s]+/)) {
-      const uppercaseLetter = Array.from(el).find((i) => i.match(/[A-Z]+/));
-      const newElement = el.replace(uppercaseLetter, ` ${uppercaseLetter.toLowerCase()}`);
+  const [isEdit, setIsEdit] = useState(false);
 
-      labels.push(newElement);
-    } else {
-      labels.push(el);
-    }
-  });
+  const [actionTooltip, setActionTooltip] = useState(isEdit ? "Save Profile" : "Edit Profile");
+  const [actionIcon, setActionIcon] = useState(isEdit ? "save" : "edit");
 
-  // Push the object values into the values array
-  Object.values(info).forEach((el) => values.push(el));
+  const [formData, setFormData] = useState(info);
 
-  // Render the card info items
-  const renderItems = labels.map((label, key) => (
-    <MDBox key={label} display="flex" py={1} pr={2}>
-      <MDTypography variant="button" fontWeight="bold" textTransform="capitalize">
-        {label}: &nbsp;
-      </MDTypography>
-      <MDTypography variant="button" fontWeight="regular" color="text">
-        &nbsp;{values[key]}
-      </MDTypography>
-    </MDBox>
-  ));
+  useEffect(() => {
+    setActionTooltip(isEdit ? "Save Profile" : "Edit Profile");
+    setActionIcon(isEdit ? "save" : "edit");
+  }, [isEdit]);
 
   // Render the card social media icons
   const renderSocial = social.map(({ link, icon, color }) => (
@@ -69,6 +84,14 @@ function ProfileInfoCard({ title, description, info, social, action, shadow }) {
     </MDBox>
   ));
 
+  function saveOrEditProfile() {
+    if (isEdit) {
+      saveProfile(formData);
+    }
+
+    setIsEdit(!isEdit);
+  }
+
   return (
     <Card sx={{ height: "100%", boxShadow: !shadow && "none" }}>
       <MDBox display="flex" justifyContent="space-between" alignItems="center" pt={2} px={2}>
@@ -76,8 +99,8 @@ function ProfileInfoCard({ title, description, info, social, action, shadow }) {
           {title}
         </MDTypography>
         <MDTypography component={Link} to={action.route} variant="body2" color="secondary">
-          <Tooltip title={action.tooltip} placement="top">
-            <Icon>edit</Icon>
+          <Tooltip title={actionTooltip} placement="top">
+            <Icon onClick={saveOrEditProfile}>{actionIcon}</Icon>
           </Tooltip>
         </MDTypography>
       </MDBox>
@@ -91,7 +114,81 @@ function ProfileInfoCard({ title, description, info, social, action, shadow }) {
           <Divider />
         </MDBox>
         <MDBox>
-          {renderItems}
+          <MDBox key="First Name" display="flex" py={1} pr={2}>
+            <MDTypography variant="button" fontWeight="bold" textTransform="capitalize">
+              First Name: &nbsp;
+            </MDTypography>
+            <MDInput
+              type="text"
+              fontWeight="regular"
+              color="text"
+              fullWidth
+              value={formData.firstName}
+              disabled={!isEdit}
+              onChange={(event) => setFormData({ ...formData, firstName: event.target.value })}
+            />
+          </MDBox>
+
+          <MDBox key="Last Name" display="flex" py={1} pr={2}>
+            <MDTypography variant="button" fontWeight="bold" textTransform="capitalize">
+              Last Name: &nbsp;
+            </MDTypography>
+            <MDInput
+              type="text"
+              fontWeight="regular"
+              color="text"
+              fullWidth
+              value={formData.lastName}
+              disabled={!isEdit}
+              onChange={(event) => setFormData({ ...formData, lastName: event.target.value })}
+            />
+          </MDBox>
+
+          <MDBox key="Email" display="flex" py={1} pr={2}>
+            <MDTypography variant="button" fontWeight="bold" textTransform="capitalize">
+              Email: &nbsp;
+            </MDTypography>
+            <MDInput
+              type="text"
+              fontWeight="regular"
+              color="text"
+              fullWidth
+              value={formData.email}
+              disabled={true}
+              onChange={(event) => setFormData({ ...formData, email: event.target.value })}
+            />
+          </MDBox>
+
+          <MDBox key="Mobile" display="flex" py={1} pr={2}>
+            <MDTypography variant="button" fontWeight="bold" textTransform="capitalize">
+              Mobile: &nbsp;
+            </MDTypography>
+            <MDInput
+              type="text"
+              fontWeight="regular"
+              color="text"
+              fullWidth
+              value={formData.mobile}
+              disabled={!isEdit}
+              onChange={(event) => setFormData({ ...formData, mobile: event.target.value })}
+            />
+          </MDBox>
+
+          <MDBox key="Location" display="flex" py={1} pr={2}>
+            <MDTypography variant="button" fontWeight="bold" textTransform="capitalize">
+              Location: &nbsp;
+            </MDTypography>
+            <MDInput
+              type="text"
+              fontWeight="regular"
+              color="text"
+              fullWidth
+              value={formData.location}
+              disabled={!isEdit}
+              onChange={(event) => setFormData({ ...formData, location: event.target.value })}
+            />
+          </MDBox>
+
           <MDBox display="flex" py={1} pr={2}>
             <MDTypography variant="button" fontWeight="bold" textTransform="capitalize">
               social: &nbsp;
@@ -118,8 +215,10 @@ ProfileInfoCard.propTypes = {
   action: PropTypes.shape({
     route: PropTypes.string.isRequired,
     tooltip: PropTypes.string.isRequired,
+    icon: PropTypes.string.isRequired,
   }).isRequired,
   shadow: PropTypes.bool,
+  isEdit: PropTypes.bool,
 };
 
 export default ProfileInfoCard;

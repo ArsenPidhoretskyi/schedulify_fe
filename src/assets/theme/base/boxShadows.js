@@ -1,7 +1,7 @@
-// Material Dashboard 2 React Base Styles
+// Schedulify React Base Styles
 import colors from "assets/theme/base/colors";
 
-// Material Dashboard 2 React Helper Functions
+// Schedulify React Helper Functions
 import boxShadow from "assets/theme/functions/boxShadow";
 
 const { black, white, tabs, coloredShadows } = colors;

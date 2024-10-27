@@ -8,23 +8,23 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Icon from "@mui/material/Icon";
 
-// Material Dashboard 2 React components
+// Schedulify React components
 import MDBox from "components/MDBox";
 
-// Material Dashboard 2 React example components
+// Schedulify React example components
 import Sidenav from "examples/Sidenav";
 import Configurator from "examples/Configurator";
 
-// Material Dashboard 2 React themes
+// Schedulify React themes
 import theme from "assets/theme";
 
-// Material Dashboard 2 React Dark Mode themes
+// Schedulify React Dark Mode themes
 import themeDark from "assets/theme-dark";
 
-// Material Dashboard 2 React routes
+// Schedulify React routes
 import routes from "routes";
 
-// Material Dashboard 2 React contexts
+// Schedulify React contexts
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
 
 // Images

@@ -1,7 +1,7 @@
-// Material Dashboard 2 React base styles
+// Schedulify React base styles
 import typography from "assets/theme/base/typography";
 
-// Material Dashboard 2 React helper functions
+// Schedulify React helper functions
 import pxToRem from "assets/theme/functions/pxToRem";
 
 const { size } = typography;

@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 // Custom styles for MDTypography
 import MDTypographyRoot from "components/MDTypography/MDTypographyRoot";
 
-// Material Dashboard 2 React contexts
+// Schedulify React contexts
 import { useMaterialUIController } from "context";
 
 const MDTypography = forwardRef(

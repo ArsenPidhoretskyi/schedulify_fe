@@ -4,10 +4,10 @@
  * You can customized the typography styles for the entire Schedulify React using this file.
  */
 
-// Material Dashboard 2 React Base Styles
+// Schedulify React Base Styles
 import colors from "assets/theme/base/colors";
 
-// Material Dashboard 2 React Helper Functions
+// Schedulify React Helper Functions
 import pxToRem from "assets/theme/functions/pxToRem";
 
 const { dark } = colors;

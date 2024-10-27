@@ -1,7 +1,7 @@
 /**
- * The base breakpoints for the Material Dashboard 2 React.
+ * The base breakpoints for the Schedulify React.
  * You can add new breakpoints using this file.
- * You can customized the breakpoints for the entire Material Dashboard 2 React using thie file.
+ * You can customized the breakpoints for the entire Schedulify React using thie file.
  */
 
 const breakpoints = {

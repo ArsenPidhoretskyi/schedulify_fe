@@ -1,9 +1,9 @@
-// Material Dashboard 2 React base styles
+// Schedulify React base styles
 import colors from "assets/theme/base/colors";
 import borders from "assets/theme/base/borders";
 import boxShadows from "assets/theme/base/boxShadows";
 
-// Material Dashboard 2 React helper functions
+// Schedulify React helper functions
 // import rgba from "assets/theme/functions/rgba";
 import pxToRem from "assets/theme/functions/pxToRem";
 import linearGradient from "assets/theme/functions/linearGradient";

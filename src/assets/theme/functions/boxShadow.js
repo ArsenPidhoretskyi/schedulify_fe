@@ -2,7 +2,7 @@
   The boxShadow() function helps you to create a box shadow for an element
  */
 
-// Material Dashboard 2 React helper functions
+// Schedulify React helper functions
 import rgba from "assets/theme/functions/rgba";
 import pxToRem from "assets/theme/functions/pxToRem";
 

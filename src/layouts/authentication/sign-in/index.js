@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { Component, useState } from "react";
 
 // react-router-dom components
 import { Link } from "react-router-dom";
@@ -13,7 +13,7 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
 
-// Material Dashboard 2 React components
+// Schedulify React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
@@ -25,6 +25,7 @@ import BasicLayout from "layouts/authentication/components/BasicLayout";
 // Images
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 import environment from "../../../environment";
+import ErrorNotification from "../../notifications/error";
 
 export default class SignIn extends Component {
   state = {
@@ -32,6 +33,7 @@ export default class SignIn extends Component {
     error: null,
     email: "",
     password: "",
+    errorSB: false,
   };
 
   constructor(props) {
@@ -49,7 +51,17 @@ export default class SignIn extends Component {
     };
 
     fetch(`${environment.API_BASE_URL}/api/v1/accounts/token/create/`, requestOptions)
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status === 200 || response.status === 201) {
+          return response.json();
+        }
+        response
+          .json()
+          .then((data) => data.detail)
+          .then((error) => {
+            this.showErrorNotification(error);
+          });
+      })
       .then((data) => {
         localStorage.setItem("accessToken", data.access);
         localStorage.setItem("refreshToken", data.refresh);
@@ -68,6 +80,27 @@ export default class SignIn extends Component {
     this.setState({
       password: event.target.value,
     });
+  }
+
+  openErrorSB() {
+    this.setState({
+      errorSB: true,
+    });
+  }
+
+  closeErrorSB() {
+    this.setState({
+      errorSB: false,
+    });
+  }
+
+  showErrorNotification(error) {
+    if (error) {
+      this.setState({
+        error: error,
+      });
+    }
+    this.openErrorSB();
   }
 
   render() {
@@ -148,6 +181,13 @@ export default class SignIn extends Component {
                     Sign up
                   </MDTypography>
                 </MDTypography>
+                <ErrorNotification
+                  errorSB={this.state.errorSB}
+                  closeErrorSB={this.state.closeErrorSB}
+                  title="Error"
+                  message={this.state.error || "Wrong credentials."}
+                  dateTime="now"
+                />
               </MDBox>
             </MDBox>
           </MDBox>

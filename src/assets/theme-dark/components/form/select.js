@@ -1,7 +1,7 @@
-// Material Dashboard 2 React base styles
+// Schedulify React base styles
 import colors from "assets/theme-dark/base/colors";
 
-// Material Dashboard 2 React helper functions
+// Schedulify React helper functions
 import pxToRem from "assets/theme-dark/functions/pxToRem";
 
 const { transparent } = colors;

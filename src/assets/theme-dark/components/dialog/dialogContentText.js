@@ -1,8 +1,8 @@
-// Material Dashboard 2 React base styles
+// Schedulify React base styles
 import typography from "assets/theme-dark/base/typography";
 import colors from "assets/theme-dark/base/colors";
 
-// Material Dashboard 2 React helper functions
+// Schedulify React helper functions
 import rgba from "assets/theme-dark/functions/rgba";
 
 const { size } = typography;
