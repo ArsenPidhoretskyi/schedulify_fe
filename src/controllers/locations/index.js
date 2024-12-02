@@ -1,8 +1,8 @@
 import environment from "../../environment";
 import responseHandler from "../../auth";
 
-export default class DashboardController {
-  static getStatistic() {
+export default class LocationController {
+  static getLocationSuggestions(query) {
     const requestOptions = {
       method: "GET",
       headers: {
@@ -11,8 +11,9 @@ export default class DashboardController {
       },
     };
 
-    return fetch(`${environment.API_BASE_URL}/api/v1/events/statistic/`, requestOptions).then(
-      (response) => responseHandler(response)
-    );
+    return fetch(
+      `${environment.API_BASE_URL}/api/v1/commons/locations/suggestions/?query=${query}`,
+      requestOptions
+    ).then((response) => responseHandler(response));
   }
 }

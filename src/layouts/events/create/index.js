@@ -2,8 +2,9 @@
 import { Link, useParams } from "react-router-dom";
 
 // @mui material components
-import Card from "@mui/material/Card";
-import Checkbox from "@mui/material/Checkbox";
+import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
+import DriveEtaIcon from "@mui/icons-material/DriveEta";
+import PedalBikeIcon from "@mui/icons-material/PedalBike";
 
 // Schedulify React components
 import MDBox from "components/MDBox";
@@ -25,8 +26,9 @@ import Icon from "@mui/material/Icon";
 import DataTable from "../../../examples/Tables/DataTable";
 import parseDatetime from "../../../commons";
 import ControlledPopup from "../../../components/ControlledPopup";
+import GoogleMapsAutocomplete from "../../../components/GoogleAutocomplete";
 
-export default function ChangeEvent() {
+export default function CreateEvent() {
   const params = useParams();
 
   const [searchEmail, setSearchEmail] = useState("");
@@ -54,6 +56,8 @@ export default function ChangeEvent() {
     end: "",
     attendees: selectedUsers,
     teams: selectedTeams,
+    location: null,
+    locationDisplay: "",
   });
   const [availableSlots, setAvailableSlots] = useState([]);
 
@@ -80,7 +84,7 @@ export default function ChangeEvent() {
         setFoundedTeams(response.results);
       });
     } else {
-      setFoundedUsers([]);
+      setFoundedTeams([]);
     }
   }, [debouncedSearchTeam]);
 
@@ -89,6 +93,14 @@ export default function ChangeEvent() {
     setFormData((prevState) => ({
       ...prevState,
       [name]: value,
+    }));
+  };
+
+  const handleLocationSave = (place, location) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      locationDisplay: location,
+      location: place.geometry.location,
     }));
   };
 
@@ -105,8 +117,8 @@ export default function ChangeEvent() {
       ...availableSlotsForm,
       teams: selectedTeams,
       participants: selectedUsers,
+      location: formData.location,
     };
-    console.log({ payload });
     EventController.getAvailableSlots(payload).then((response) => setAvailableSlots(response));
   };
 
@@ -116,20 +128,27 @@ export default function ChangeEvent() {
       start: parseDatetime(slot[0], false),
       end: parseDatetime(slot[1], false),
     }));
-    console.log(popupRef);
     popupRef.current.handleClose();
   };
 
   const availableSlotsColumns = [
     { Header: "Start", accessor: "start", width: "20%", align: "center" },
     { Header: "End", accessor: "end", width: "20%", align: "center" },
+    { Header: "Reachable by", accessor: "reachable_by", width: "20%", align: "center" },
     { Header: "Action", accessor: "action", width: "10%", align: "center" },
   ];
 
   const availableSlotsRows = availableSlots.map((slot) => {
     return {
-      start: parseDatetime(slot[0]),
-      end: parseDatetime(slot[1]),
+      start: parseDatetime(slot.start),
+      end: parseDatetime(slot.end),
+      reachable_by: (
+        <MDBox>
+          {slot.reachable_by.driving ? <DriveEtaIcon /> : null}
+          {slot.reachable_by.walking ? <DirectionsRunIcon /> : null}
+          {slot.reachable_by.bicycling ? <PedalBikeIcon /> : null}
+        </MDBox>
+      ),
       action: (
         <MDButton variant="text" color="dark" onClick={(event) => slotChosen(slot)}>
           <Icon>check</Icon>
@@ -234,6 +253,13 @@ export default function ChangeEvent() {
                 />
               </MDBox>
             </MDBox>
+          </MDBox>
+
+          <MDBox mb={2}>
+            <GoogleMapsAutocomplete
+              onSaveClick={handleLocationSave}
+              boundedField={formData.locationDisplay}
+            />
           </MDBox>
 
           <ControlledPopup

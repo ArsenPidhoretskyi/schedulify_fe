@@ -58,6 +58,8 @@ export default class EventController {
         end: formData.end,
         attendees: formData.attendees,
         teams: formData.teams,
+        location: formData.location,
+        location_display: formData.locationDisplay,
       }),
     };
 

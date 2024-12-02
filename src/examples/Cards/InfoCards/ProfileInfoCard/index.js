@@ -20,6 +20,7 @@ import typography from "assets/theme/base/typography";
 import MDInput from "../../../../components/MDInput";
 import { useEffect, useState } from "react";
 import environment from "../../../../environment";
+import GoogleMapsAutocomplete from "../../../../components/GoogleAutocomplete";
 
 function saveProfile(formData) {
   const requestOptions = {
@@ -33,6 +34,7 @@ function saveProfile(formData) {
       last_name: formData.lastName,
       mobile: formData.mobile,
       location: formData.location,
+      location_display: formData.locationDisplay,
     }),
   };
 
@@ -60,6 +62,16 @@ function ProfileInfoCard({ title, description, info, social, action, shadow }) {
   const [actionIcon, setActionIcon] = useState(isEdit ? "save" : "edit");
 
   const [formData, setFormData] = useState(info);
+
+  useEffect(() => setFormData(info), [info]);
+
+  const handleLocationSave = (place, location) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      locationDisplay: location,
+      location: place.geometry.location,
+    }));
+  };
 
   useEffect(() => {
     setActionTooltip(isEdit ? "Save Profile" : "Edit Profile");
@@ -178,15 +190,13 @@ function ProfileInfoCard({ title, description, info, social, action, shadow }) {
             <MDTypography variant="button" fontWeight="bold" textTransform="capitalize">
               Location: &nbsp;
             </MDTypography>
-            <MDInput
-              type="text"
-              fontWeight="regular"
-              color="text"
-              fullWidth
-              value={formData.location}
-              disabled={!isEdit}
-              onChange={(event) => setFormData({ ...formData, location: event.target.value })}
-            />
+            <MDBox mb={2}>
+              <GoogleMapsAutocomplete
+                showLabel={false}
+                onSaveClick={handleLocationSave}
+                boundedField={formData.locationDisplay}
+              />
+            </MDBox>
           </MDBox>
 
           <MDBox display="flex" py={1} pr={2}>

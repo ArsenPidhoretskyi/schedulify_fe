@@ -97,9 +97,10 @@ export default class Profile extends Component {
                   info={{
                     firstName: this.state.profile?.first_name || "",
                     lastName: this.state.profile?.last_name || "",
-                    mobile: this.state.profile?.phone_number || "",
+                    mobile: this.state.profile?.mobile || "",
                     email: this.state.profile?.email || "",
                     location: this.state.profile?.location || "",
+                    locationDisplay: this.state.profile?.location_display || "",
                   }}
                   social={[
                     {

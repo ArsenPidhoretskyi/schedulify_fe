@@ -63,11 +63,12 @@ export default class Events extends Component {
   getColumns() {
     return [
       { Header: "Title", accessor: "title", width: "20%", align: "center" },
-      { Header: "Description", accessor: "description", width: "30%", align: "center" },
+      { Header: "Description", accessor: "description", width: "25%", align: "center" },
       { Header: "Start", accessor: "start", width: "5%", align: "center" },
       { Header: "End", accessor: "end", width: "5%", align: "center" },
       { Header: "Owner", accessor: "owner", width: "5%", align: "center" },
-      { Header: "Participants", accessor: "participants", width: "25%", align: "center" },
+      { Header: "Participants", accessor: "participants", width: "20%", align: "center" },
+      { Header: "Location", accessor: "location", width: "10%", align: "center" },
       { Header: "Actions", accessor: "action", width: "10%", align: "center" },
     ];
   }
@@ -109,6 +110,11 @@ export default class Events extends Component {
           <MDBox display="flex" py={1}>
             {avatars(this.getEventParticipants(event))}
           </MDBox>
+        ),
+        location: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            {event.location_display || "Online"}
+          </MDTypography>
         ),
         action: (
           <MDTypography
